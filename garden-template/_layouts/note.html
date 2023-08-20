@@ -1,0 +1,57 @@
+---
+layout: default
+---
+
+
+<article>
+
+    <content {% if page.book or page.tag[0] == "meditation" or page.tag[0] == "commentarium" or page.tag[0] == "fabula" or page.tag[0] == "fragmentum" or page.tag[0] == "hmphilosophy" or page.tag[0] == "hmanalysis" or page.tag[0] == "hmglossary" or page.tag[0] == "hmcycles" %}id = "book"{% endif %} >
+      {{ content }}
+    </content>
+
+    <script type="text/javascript" src="assets/lightbox.js"></script>
+    <link rel="stylesheet" href="assets/lightbox.css">
+
+    {% if page.zoom or page.tags[0] == "abstract" or page.tags[0] == "shape" or page.tags[0] == "concept" or page.tags[0] == "visio" %}
+    <script src="assets/zooming.min.js"></script>
+    <script>
+      new Zooming().listen('img')
+    </script>
+    {% endif %}
+
+
+    {% include emded.html %}
+
+    {% include backlinks_light_grouped_light.html %}
+
+    {%- comment -%}
+
+    {%- endcomment -%}
+
+    {%- comment -%}
+    {% include backlinks_light_grouped.html %}
+    {%- endcomment -%}
+
+    {%- comment -%}
+    {% include backlinks_light.html %}
+
+    {% include backlinks.html %}
+    {% include links.html %}
+    {% include linked_recomendations.html %}
+    {% include grouped_recomendations.html %}
+    {% include recomendations.html %}
+
+    {% include recomendations_fold.html %}
+
+    
+
+    {% include recomendations_fold_grouped.html %}
+    {%- endcomment -%}
+
+    {% if page.tag[0] != "verbum" and page.tag[0] != "personality" and page.tag[0] != "ex"  %}
+    {% include date.html %}
+    {% endif %}
+
+</article>
+
+

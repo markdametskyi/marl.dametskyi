@@ -1,0 +1,102 @@
+
+<div style="margin:4em auto; font-size: 18px; text-align:center; transition: color 0.5s ease-in-out;">
+
+<span class = "sans" style="padding:10px; cursor: pointer;" onclick="toggleTheme()">◐</span>
+
+
+
+<span style="padding:10px; cursor: pointer;" onclick="switchFont()">T</span>
+
+<span class = "sans" style="padding:10px; cursor: pointer;" onclick="toggleBook()">¶</span>
+
+<!--
+<span id = "Lang" style="padding:10px;" ><select class="myselect" onchange="setFont(this.value)">
+    <optgroup label="Выберите шрифт">
+      <option class = "sans" value="sans">Manrope</option>
+      <option class = "serif" value="serif">Noto Serif</option>
+      <option class = "mono" value="ia">IA Writer</option>
+      <option class = "ia" value="mono">JetBrains Mono</option>
+    </optgroup>
+  </select>
+</span>
+-->
+
+{%- comment -%}
+<!--
+<button onclick="toggleTheme()">Toggle Dark mode</button>
+<button onclick="toggleSans()">Toggle Sans mode</button>
+-->
+{%- endcomment -%}
+
+</div>
+
+{%- comment -%}
+<div style="width: 100%;
+  background-color: var(--nav);
+  left: 0px;
+  bottom: 0px;
+  position: fixed;
+  transition: all 0.5s ease-in-out;">
+  <div class="sans" style="height: 100%; padding: 0.75em 1em; max-width: 732px; margin: auto; display: flex; font-size: 14px; font-weight: 400; justify-content: space-between; opacity: 1;">
+    <div style="opacity: 0.5; margin: auto 0px; color: var(--font-color); transition: all 0.5s ease-in-out;">
+    Следить за обновлениями
+    </div>
+    <div style="background-color: #996cc1; color: white; text-align: center; border-radius: 24px; padding: 4px 10px; margin: auto 0 auto;cursor: pointer; display: flex;" onclick="window.open('https://t.me/originlook')">
+      Telegram
+      <div style="margin: auto; display: flex; padding-left: 8px; margin-right: -2px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+          <path style="fill: white;" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endcomment -%}
+
+
+{%- comment -%}
+<div style="width: 100%;
+  background-color: var(--nav);
+  /* height: 48px; */
+  
+  left: 0px;
+  bottom: 0px;
+  /* right: 0px; */
+  /* display: list-item; */
+  position: absolute;
+  transition: all 0.5s ease-in-out;">
+  <div class="sans" style="height: 100%; padding: 1em; max-width: 732px; margin: auto; display: flex; font-size: 16px; font-weight: 400; justify-content: space-between; opacity: 0.65;">
+    <div style="
+    margin: auto 0px;
+    color: var(--font-color);
+    transition: all 0.5s ease-in-out;
+    ">
+    Следить за обновлениями</div>
+    <div style="
+      background-color: #996cc1;
+      color: white;
+      /* width: 100px; */
+      text-align: center;
+      border-radius: 24px;
+      padding: 4px 12px;
+      margin: auto 0 auto;
+      cursor: pointer;
+      " onclick="window.open('https://t.me/originlook')">Подписаться
+      <div style="
+        margin: auto;
+        display: flex;
+        padding-left: 8px;
+        margin-right: -2px;"
+      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="
+      /* margin: auto; */
+      ">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"></path>
+      </svg>
+    </div>
+  </div>
+  
+    </div>
+  </div>  
+</div>  
+{%- endcomment -%}

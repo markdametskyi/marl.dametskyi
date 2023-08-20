@@ -1,0 +1,87 @@
+<div style=" margin: auto;">
+    <div style="display: inline-table;">
+        {% if page.url != "/" %}
+            <a class="internal-link sans" style="margin-right: 12px;" href="/"><b>{{ site.alias }}</b></a>
+            {% if page.tag %}
+
+            {% assign notfinded = true %}
+
+
+                {% for proj in site.projects %}
+                    {% assign intags = proj.intags | split: ',' %}
+                    {% for tag in intags %}
+                        {% if page.tag contains tag %}
+                            {% for t in site.tagpages %}
+                                {% if t.slug contains tag %}
+                                <span style="opacity: 0.5; padding: 0px; margin: 0px;" class = "sans">/</span><a class="header-nav sans" href="/{{proj.slug}}">{{proj.title}}</a><span style="opacity: 0.5; padding: 0px; margin: 0px;" class = "sans">.</span>
+                                    {% assign notfinded = false %}
+                                    {% break %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+
+                {% if notfinded %}
+                <span style="opacity: 0.5; padding: 0px; margin: 0px;" class = "sans">.</span>
+                {% endif %}
+
+                {%- comment -%}
+
+                {% if page.tag contains "fabula" or page.tag contains "meditation" or page.tag contains "notas" or page.tag contains "draft" %}
+                <a class="header-nav sans" href="/exlimbus">Ex Limbus</a><span style="opacity: 0.5; padding: 0px; margin: 0px;">.</span>
+                {% endif %}
+
+                {% if page.tag contains "ex" or page.tag contains "personality" or page.tag contains "commentarium" or page.tag contains "fragmentum" %}
+                <a class="header-nav sans" href="/discreteblack">Discrete Black</a><span style="opacity: 0.5; padding: 0px; margin: 0px;">.</span>
+                {% endif %}
+
+                {%- endcomment -%}
+
+                {% assign variable = page.tag %} 
+
+                {% for item in site.tagpages %}
+                    {% if page.tag contains item.slug %}
+                        {% assign variable = item.title %}
+                    {% endif %}
+                {% endfor %}
+
+                <a class="header-nav sans" href="tagpage/{{page.tags[0]}}">{{variable}}</a>
+
+            {% elsif page.layout != 'project' %}
+
+
+                {% for proj in site.projects %}
+                    {% assign intags = proj.intags | split: ',' %}
+                    {% for tag in intags %}
+                        {% if page.slug contains tag %}
+                            <span style="opacity: 0.5; padding: 0px; margin: 0px;" class = "sans">.</span><a class="header-nav sans" href="/{{proj.slug}}">{{proj.title}}</a>
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+            {% endif %}
+
+        {% endif %}
+    </div>
+    {% if page.url != "/search" %}
+    {%- comment -%}
+    <a class="nav-shape" href="/search">
+        <div  style="width: 1.2em; height: 1.2em; right: 0px; float: right; cursor: pointer;";">
+            <!--<svg  enable-background="new 0 0 384.97 384.97" viewBox="0 0 384.97 384.97" xmlns="http://www.w3.org/2000/svg"><path d="m12.03 120.303h360.909c6.641 0 12.03-5.39 12.03-12.03 0-6.641-5.39-12.03-12.03-12.03h-360.909c-6.641 0-12.03 5.39-12.03 12.03s5.39 12.03 12.03 12.03z"/><path d="m372.939 180.455h-360.909c-6.641 0-12.03 5.39-12.03 12.03s5.39 12.03 12.03 12.03h360.909c6.641 0 12.03-5.39 12.03-12.03s-5.389-12.03-12.03-12.03z"/><path d="m372.939 264.667h-240.606c-6.641 0-12.03 5.39-12.03 12.03 0 6.641 5.39 12.03 12.03 12.03h240.606c6.641 0 12.03-5.39 12.03-12.03.001-6.641-5.389-12.03-12.03-12.03z"/></svg>-->
+            <svg width="21px" height="29px" viewBox="0 0 21 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Artboard" stroke="none" stroke-width="1">
+                    <rect id="Rectangle" x="0" y="8" width="21" height="1.25" rx="0.625"></rect>
+                    <path d="M0.625,13.8818871 L20.375,13.8818871 C20.720178,13.8818871 21,14.1617091 21,14.5068871 C21,14.852065 20.720178,15.1318871 20.375,15.1318871 L0.625,15.1318871 C0.279822031,15.1318871 4.22721094e-17,14.852065 0,14.5068871 C-4.22721094e-17,14.1617091 0.279822031,13.8818871 0.625,13.8818871 Z" id="Rectangle-Copy"></path>
+                    <rect id="Rectangle-Copy-2" x="5" y="19.75" width="16" height="1.25" rx="0.625"></rect>
+                </g>
+            </svg>
+        </div>
+    </a>
+    {%- endcomment -%}
+    {% endif %}
+</div>
+
+<!--<div><a class="tag-link sans" href="/{{page.tag}}">{{page.tag}}</a></div>-->

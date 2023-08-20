@@ -1,0 +1,121 @@
+<head>
+  <meta charset="UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="{{ site.title }}" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#fff" />
+  <meta name="apple-mobile-web-app-title" content="{{ site.title }}" />
+
+
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
+
+  <script type="text/javascript" src="{{ site.baseurl }}/assets/code.js"></script>
+
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+{%- comment -%}
+  <meta name="description" content="{% if page.content %}{{ page.content | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.title }}{% endif %}">
+{%- endcomment -%}
+
+  <meta property="og:site_name" content="{{ site.title }}">
+
+  <!--<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">-->
+
+<link rel="apple-touch-icon" sizes="57x57" href="{{ site.baseurl }}/favicons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ site.baseurl }}/favicons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ site.baseurl }}/favicons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ site.baseurl }}/favicons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ site.baseurl }}/favicons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ site.baseurl }}/favicons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ site.baseurl }}/favicons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ site.baseurl }}/favicons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/favicons/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{ site.baseurl }}/favicons/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ site.baseurl }}/favicons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/favicons/favicon-16x16.png">
+<link rel="manifest" href="{{ site.baseurl }}favicons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="{{ site.baseurl }}/favicons/ms-icon-144x144.png">
+
+
+
+<!--{{ site.baseurl }}-->
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
+
+{%- comment -%}
+  {% if page.excerpt %}
+  <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}"/>
+  {% else %}
+  <meta property="og:description" content="{{ site.title | strip_html | strip_newlines | truncate: 160 }}"/>
+  {% endif %}
+{%- endcomment -%}
+
+  {% if page.title %}
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:type" content="article">
+  <meta name="twitter:title" content="{{ page.title }}"/>
+  {% else %}
+  <meta property="og:title" content="{{ site.title }}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:title" content="{{ site.title }}"/>
+  {% endif %}
+
+  {% if page.date %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  {% endif %}
+
+  <meta property="article:author" content="Author Name">
+
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+{% assign slug = "" %}
+{% if page.slug %}
+{% assign slug = page.slug %}
+{% else %}
+{% assign slug = page.permalink | replace: '/', '' %}
+  {% if slug == "" %}
+    {% assign slug = "index" %}
+  {% endif %}
+{% endif %}
+  <meta property="og:image" content="{{ site.url }}/assets/preview/{{slug}}.jpeg" />
+
+  <meta name="twitter:image:src" content="{{ site.url }}/assets/preview/{{slug}}.jpeg"/>
+  <meta name="twitter:site" content="{{ site.title }}"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  
+  {%- comment -%}
+  {% if page.image %}
+  <meta property="og:image" content="{{ site.url }}{{ page.image }}">
+  {% else %}
+  <meta property="og:image" content="{{ site.image | absolute_url }}" />
+  {% endif %}
+  {%- endcomment -%}
+
+  {% assign variable = "" %} 
+
+{%- comment -%}
+{% if page.tag %}
+  {% for item in site.tagpages %}
+      {% if page.tag contains item.slug %}
+          {% assign variable = " &mdash; " | append: item.title %}
+      {% endif %}
+  {% endfor %}
+{% endif %}
+{%- endcomment -%}
+
+  {% assign title = "" %}
+  {% if page.id == "home" %}
+    {% assign title = site.title %}
+  {% else %}
+    {% assign title = page.title%}
+  {% endif %}
+
+  <title>{{title}}</title>
+
+</head>

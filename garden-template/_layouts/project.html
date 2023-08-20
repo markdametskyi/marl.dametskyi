@@ -1,0 +1,58 @@
+---
+layout: page
+---
+
+<h1 class="custom-h" style="margin-bottom: 0.5em; font-size: 2rem;">{{ page.title }}</h1>
+
+{{page.links}}
+
+<h2>Описание</h2>
+{{page.description}}
+
+{%- comment -%}
+<h3>Навигация</h3>
+{%- endcomment -%}
+<br/>
+
+{% assign current = 0 %}
+{% assign intags = page.intags2 | split: ',' %}
+{% assign count = intags.size %}
+
+  {% for tag in intags %}
+    {% for t in site.tagpages | sort: 'priority' %}
+      {% if t.slug contains tag %}
+      {% assign current = current | plus: 1 %}
+        <a class="internal-link" href="#{{t.slug}}">{{t.titles}}</a>
+        <span style="opacity: 0.5; padding: 0px; margin: 0px;">{% if current != count %}.{% endif %}</span>
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+  <hr>
+
+
+{% assign intags = page.intags2 | split: ',' %}
+
+
+  {% assign sorted_tags = site.tagpages | sort: 'priority' %}
+
+  {% assign matched_tags = '' | split: '' %}
+
+<div>
+
+  {% for global-tag in sorted_tags %}
+    {% for local-tag in intags%}
+      {% if global-tag.slug contains local-tag %}
+        <h3 id = "{{global-tag.slug}}"><a class="internal-link" href="/tagpage/{{global-tag.slug}}">{{global-tag.titles}}</a></h3>
+        <ul>
+            {% for note in site.notes%}
+                {% if note.tag contains local-tag %}
+                    <li><a class="internal-link" href="{{note.url}}">{{note.title}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>

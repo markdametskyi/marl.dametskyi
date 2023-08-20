@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% include head.html %}
+  <body>
+    <svg id="fader"></svg>
+    <script>
+      fadeInPage();
+  </script>
+
+
+    <div id="mybody" class = "mybody">
+      <nav>{% include nav.html %}</nav>
+      <div class="wrapper">
+      <main>{{ content }}</main>
+      </div>
+    </div>
+
+    <footer>{% include footer.html %}</footer>
+
+  <script src="{{ site.baseurl }}/assets/zenscroll-min.js"></script>
+  </body>
+</html>

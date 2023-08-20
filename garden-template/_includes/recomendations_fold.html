@@ -1,0 +1,181 @@
+{% assign links = '' | split: '' %}
+
+{% assign links_links = '' | split: '' %}
+
+{% assign links_backlinks = '' | split: '' %}
+
+{% for note in site.notes  %}
+    {% for backlink in note.backlinks %}    
+        {% if backlink.url == page.url %}
+            {% assign links = links | push: note %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+
+{% assign recs = '' | split: '' %}
+
+{% for link in links  %}
+    {% for blink in link.backlinks %}
+        {% assign recs = recs | push: blink %}
+        {% assign links_backlinks = links_backlinks | push: blink %}
+    {% endfor %}
+
+    {% for note in site.notes  %}
+        {% for backlink in note.backlinks %}    
+            {% if backlink.url == link.url %}
+                {% assign recs = recs | push: note %}
+                {% assign links_links = links_links | push: note %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+
+<!-- очистка от дубликатов и самоссылок -->
+
+{% assign clearedrecs = '' | split: '' %}
+
+{% assign recs = recs | uniq %}
+
+{% assign links_links = links_links | uniq %}
+
+{% assign links_backlinks = links_backlinks | uniq %}
+
+
+{% for rec in recs  %}
+    {% if rec.url != page.url %}
+
+    {% assign notfinded = true %}
+        {% for link in links %}
+            {% if link.url == rec.url%}
+                {% assign notfinded = false %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+
+        {% if notfinded%}
+            {% assign clearedrecs = clearedrecs | push: rec %}
+        {% endif %}
+
+    {% endif %}
+{% endfor %}
+
+{% assign clearedrecs = clearedrecs | uniq | sort: 'tag' %}
+
+
+{% if clearedrecs.size > 0 %}
+
+    <hr>
+    <div style="
+    margin-block-start: 1em;
+    margin-block-end: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    ">
+    <span class = "custom-h3">Рекомендации:</span>
+    <button class="accordion" name = "fold_rec">Показать ссылки</button>
+    </div>
+
+    <ul>
+        {% for rec in clearedrecs  %}
+
+            {% assign variable = rec.tag %} 
+            {% for item in site.tagpages %}
+                {% if rec.tags[0] contains item.slug %}
+                    {% assign variable = item %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+
+            <li><a class="internal-link" href="{{ rec.url }}">{{ rec.title }}</a>&nbsp<a class="taglink" href="tagpage/{{variable.slug}}">#{{variable.title | downcase}}</a>
+
+                {% assign flinks = '' | split: '' %}
+
+
+
+                {% for l in links %}
+
+                    {% for blink in l.backlinks %}
+                        {% if rec.url == blink.url %}
+                            {% assign flinks = flinks | push: l %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for note in site.notes  %}
+                        {% for backlink in note.backlinks %}    
+                            {% if backlink.url == l.url and note.url == rec.url %}
+                                {% assign flinks = flinks | push: l %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                {% endfor %}
+
+                {% assign flinks = flinks | uniq %}
+                <div class="panel" name = "rec_panel">
+                    <p><span>↑ </span>
+                    {% for fl in flinks %}
+                        <a class="taglink" href="{{ fl.url }}">{{ fl.title }}</a>
+                            {% if fl != flinks.last %}<span style="opacity: 0.5; padding: 0px; margin: 0px;">.</span>{% endif %}
+                    {% endfor %}
+                    </p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {%- comment -%}
+
+    <ul>
+        {% for rec in clearedrecs%}
+            {% assign variable = rec.tag %} 
+            {% for item in site.tagpages %}
+                {% if rec.tags[0] contains item.slug %}
+                    {% assign variable = item %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+            <li><a class="internal-link" href="{{ rec.url }}">{{ rec.title }}</a>&nbsp<a class="taglink" href="tagpage/{{variable.slug}}">#{{variable.title | downcase}}</a></li>
+        {% endfor %}
+    </ul>
+
+    {%- endcomment -%}
+
+{% endif %}
+
+<script>
+    var acc = document.getElementsByName("fold_rec");
+    var i;
+    
+    var folded = false;
+  
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        //var panel = this.nextElementSibling;
+  
+        this.innerHTML = folded ? "Показать ссылки" : "Скрыть ссылки";
+  
+        folded = !folded;
+  
+        var panels = document.getElementsByName("rec_panel");
+  
+        for (i = 0; i < panels.length; i++) {
+  
+        if (panels[i].style.maxHeight) {
+          panels[i].style.maxHeight = null;
+          panels[i].style.marginBottom = null;
+          panels[i].style.marginTop = null;
+          panels[i].style.opacity = null;
+
+        } else {
+          panels[i].style.maxHeight = (panels[i].scrollHeight*3) + "px";
+          panels[i].style.marginBottom = 0 + "em";
+          panels[i].style.marginTop = 0.1 + "em";
+          panels[i].style.opacity = "inherit";
+        } 
+      }
+      });
+    }
+</script>

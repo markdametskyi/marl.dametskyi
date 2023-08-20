@@ -1,0 +1,74 @@
+---
+layout: page
+---
+
+<h1 class="custom-h" style="font-size: 2rem;">{{ page.titles }}</h1>
+
+<div class="desc">{{page.description}}</div>
+<br/>
+
+<div>
+  <input type="search" id="search-input" placeholder="Начните вводить для поиска" aria-label="Search">
+</div>
+
+<br/>
+
+<ul id="search-results"></ul>
+
+
+  <script src="/assets/simple-jekyll-search.min.js"></script>
+
+  {% assign n = "" | split: "" %}
+
+  {% for note in site.notes %}
+      {% if note.tags contains page.slug %}
+          {% assign n = n | push: note %}
+      {% endif %}
+  {% endfor %}
+
+  <script type="text/javascript">
+    var sjs = SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('search-results'),
+    json: '{{page.slug}}.json', 
+    searchResultTemplate: '<li><a class = "internal-link" href="{url}">{title}</a></li>',
+  });
+
+    var i =  document.getElementById('search-input')
+    
+    i.addEventListener("input", function() { 
+      if (i.value != ""){
+        document.getElementById('main').style.display = "none"
+      } 
+      else{
+        document.getElementById('main').style.display = null;
+      }
+  } );
+
+  </script>
+
+<script type="text/javascript">
+  document.addEventListener('keydown', logKey);
+  function logKey(e) {
+    var input = document.getElementById("search-input");
+    if(input.value == ""){
+      input.focus();
+      //input.value = e.key;
+    }
+  }
+  </script>
+
+  <ul id = "main">
+
+    {% assign sorted_notes = site.notes | sort: page.sortby %}
+
+    {% if page.reversed %}
+      {% assign sorted_notes = site.notes | reverse %}
+    {% endif %}
+
+    {% for item in sorted_notes %}
+      {% if item.tag contains page.slug %}
+        <li><a class="internal-link" href="{{ item.url }}">{{ item.title }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>

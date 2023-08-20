@@ -1,0 +1,19 @@
+<hr>
+
+{% assign links = '' | split: '' %}
+
+{% for note in site.notes  %}
+    {% for backlink in note.backlinks %}    
+        {% if backlink.title == page.title %}
+            {% assign links = links | push: note %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<h3>Ссылки:</h3>
+
+<ul>
+{% for link in links  %}
+    <li><a class="internal-link" href="{{ link.url }}">{{ link.title }}</a></li>
+{% endfor %}
+</ul>

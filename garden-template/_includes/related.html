@@ -1,0 +1,15 @@
+<div>
+    {% if page.tag %}
+    <hr>
+    <h3>Похожие записи</h3>
+        <ul>
+            {% assign count = 0 %}
+            {% for item in site['notes']%}
+                {% if item.tag == page.tag and item.title != page.title and count < 5 %}
+                    <li><a class="internal-link" href="{{ item.url }}">{{ item.title }}</a></li>
+                    {% assign count = count | plus:1 %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+  </div>

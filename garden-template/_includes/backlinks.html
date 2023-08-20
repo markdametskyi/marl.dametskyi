@@ -1,0 +1,175 @@
+{% if page.backlinks.size > 0 %}
+
+{% assign finded = false %}
+
+
+{% for backlink in page.backlinks %}
+  {% if backlink.backlinks.size > 0 %}
+    {% for inner-backlink in backlink.backlinks %}
+      {% unless inner-backlink.title == page.title%}
+        {% assign finded = true %}
+      {% endunless %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+  <hr>
+
+  {% if finded %}
+
+  <div style="
+  margin-block-start: 1em;
+  margin-block-end: 0.1em;
+  display: flex;
+  justify-content: space-between;
+  ">
+  <span class = "custom-h3">Упоминания</span>
+  <button class="accordion">Показать вложенные</button>
+  </div>
+
+  {% else %}
+  <h3>Упоминания</h3>
+  {% endif %}
+    
+  {% assign tags = page.backlinks | sort: 'tag' | map: 'tag' | uniq %}
+
+{%- comment -%}
+Сортировка
+{%- endcomment -%}
+
+  {% assign sorted_tags = site.tagpages | sort: 'priority' %}
+  {% assign matched_tags = '' | split: '' %}
+
+  {% for tag in sorted_tags %}
+    {% for backlink-tag in tags%}
+      {% if backlink-tag contains tag.slug and tag.slug != "signum" %}
+        {% assign matched_tags = matched_tags | push: tag.slug %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+{%- comment -%}
+Конец сортировки, отрисовка
+{%- endcomment -%}
+
+  <ul>
+    {% for tag in matched_tags %}
+      {% for sitetag in site.tagpages %}
+        {% if tag contains sitetag.slug %}
+          <li>
+            <a class="internal-link" href="tagpage/{{tag}}">{{ sitetag.titles }}</a>
+          </li>
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {%- comment -%}
+      <a class="internal-link" href="tagpage/{{tag}}">#{{tag}}</a>
+      {%- endcomment -%}
+
+      {% assign sorted_backlinks = page.backlinks | sort: 'tag' | uniq %}
+      <ul>
+        {% for backlink in sorted_backlinks %}
+          {% if backlink.tag contains tag %}
+            <li>
+              <a class="internal-link" href="{{ backlink.url }}">{{ backlink.title }}</a>
+            </li>
+            {% if backlink.backlinks.size > 0 %}
+              <div class="panel">
+                <ul>
+                  {% for inner-backlink in backlink.backlinks %}
+                    {% unless inner-backlink.title == page.title%}
+                      <li>
+                        {% assign variable = inner-backlink.tag %} 
+                        {% for item in site.tagpages %}
+                            {% if inner-backlink.tag contains item.slug %}
+                                {% assign variable = item %}
+                                {% break %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <a class="internal-link" href="{{ inner-backlink.url }}">{{ inner-backlink.title }}</a>&nbsp<a class="taglink" href="tagpage/{{variable.slug}}">#{{variable.title | downcase}}</a>
+
+                      </li>
+                    {% endunless %}
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </ul>
+
+{% endif %}
+
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  
+  var folded = false;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      //var panel = this.nextElementSibling;
+
+      this.innerHTML = folded ? "Показать вложенные" : "Скрыть вложенные";
+
+      folded = !folded;
+
+      var panels = document.getElementsByClassName("panel");
+
+      for (i = 0; i < panels.length; i++) {
+
+      if (panels[i].style.maxHeight) {
+        panels[i].style.maxHeight = null;
+      } else {
+        panels[i].style.maxHeight = (panels[i].scrollHeight*3) + "px";
+      } 
+    }
+    });
+  }
+  </script>
+
+{% comment %}
+
+<!--
+
+<ul>
+  {% for tag in tags %}
+    <li>{{tag}}</li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+-->
+
+<!-- Добавить сортировку по риоритету в коллекции тэгов -->
+
+{% endcomment %}
+
+
+
+{% comment %}
+
+<!--
+
+<hr>
+
+    <ul>
+    {% for backlink in page.backlinks | sort: 'tag' %}
+    <li>
+      <a class="internal-link" href="{{ backlink.url }}">{{ backlink.title }}</a> <a href="tag/{{backlink.tag}}">#{{backlink.tag}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+    </div>
+    
+  </div>
+
+  -->
+
+  {% endcomment %}

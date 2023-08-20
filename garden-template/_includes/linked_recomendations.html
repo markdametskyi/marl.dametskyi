@@ -1,0 +1,113 @@
+{% assign links = '' | split: '' %}
+
+{% for note in site.notes  %}
+    {% for backlink in note.backlinks %}    
+        {% if backlink.title == page.title %}
+            {% assign links = links | push: note %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+{% assign recs = '' | split: '' %}
+
+{% for link in links  %}
+    {% for blink in link.backlinks %}
+        {% assign recs = recs | push: blink %}
+    {% endfor %}
+
+    {% for note in site.notes  %}
+    {% for backlink in note.backlinks %}    
+        {% if backlink.title == link.title %}
+            {% assign recs = recs | push: note %}
+        {% endif %}
+    {% endfor %}
+
+{% endfor %}
+
+{% endfor %}
+
+<!-- очистка от дубликатов и самоссылок -->
+
+{% assign clearedrecs = '' | split: '' %}
+
+{% assign recs = recs | uniq %}
+
+{% for rec in recs  %}
+    {% if rec.url != page.url %}
+
+    {% assign notfinded = true %}
+        {% for link in links %}
+            {% if link.url == rec.url%}
+                {% assign notfinded = false %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+
+        {% if notfinded%}
+            {% assign clearedrecs = clearedrecs | push: rec %}
+        {% endif %}
+
+    {% endif %}
+{% endfor %}
+
+{% assign clearedrecs = clearedrecs | uniq | sort: 'tag' %}
+
+
+{% if clearedrecs.size > 0 %}
+
+<hr>
+<h3>Связи:</h3>
+
+
+<ul>
+    {% for rec in clearedrecs  %}
+
+        {% assign variable = rec.tag %} 
+        {% for item in site.tagpages %}
+            {% if rec.tags[0] contains item.slug %}
+                {% assign variable = item %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+
+        <li>
+
+          {% assign flinks = '' | split: '' %}
+          {% for l in links %}
+
+            {% for blink in l.backlinks %}
+              {% if rec.title == blink %}
+                {% assign flinks = flinks | push: l %}
+              {% endif %}
+            {% endfor %}
+                
+            {% for note in site.notes  %}
+              {% for backlink in note.backlinks %}    
+                {% if backlink.title == l.title %}
+                  {% assign flinks = flinks | push: l %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+
+          {% endfor %}
+
+          {% assign flinks = flinks | uniq %}
+
+          <span>[</span>
+          {% for fl in flinks %}
+          <a class="internal-link" href="{{ fl.url }}">{{ fl.title }}</a>
+            {% if fl != flinks.last %}
+            <span>, </span>
+            {% endif %}
+          {% endfor %}
+          <span>]</span>
+          <span> → </span>
+          <a class="internal-link" href="{{ rec.url }}">{{ rec.title }}</a>&nbsp<a class="taglink" href="tagpage/{{variable.slug}}">#{{variable.title | downcase}}</a>
+        
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% endif %}

@@ -1,0 +1,9 @@
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+_notes/Personal
+_notes/.obsidian
+.DS_Store
+_notes/.DS_Store
+_includes/notes_graph.json
